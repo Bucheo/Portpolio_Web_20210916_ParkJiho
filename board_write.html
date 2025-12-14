@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NEW 블로그 게시판 추가하기</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mt-4 p-3 border rounded bg-light">
+            <h1 class="m-0">NEW 블로그 게시판 추가하기</h1>
+            <div class="text-right">
+                <span class="font-weight-bold text-primary" th:text="${email} + '님 환영합니다.'"></span>
+                <a class="btn btn-sm btn-outline-danger ml-3" th:href="@{/api/logout}">로그아웃</a>
+            </div>
+        </div>
+        
+        <!-- 게시글 추가 폼 -->
+        <div class="mt-4">
+            <h2>게시글 추가(제목과 내용 입력)</h2>
+            <form th:action="@{/api/boards}" method="post">
+                <div class="form-group">
+                    <label for="title">제목:</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">내용:</label>
+                    <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                </div>
+                
+                <!-- 작성자 표시 (읽기 전용) -->
+                <div class="form-group">
+                    <label for="displayUser">작성자:</label>
+                    <input type="text" class="form-control" id="displayUser" 
+                           th:value="${userName}" readonly>
+                </div>
+                
+                <!-- 작성일 표시 (읽기 전용) -->
+                <div class="form-group">
+                    <label for="displayDate">작성일:</label>
+                    <input type="text" class="form-control" id="displayDate" 
+                           th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm')}" readonly>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">글 저장하기</button>
+                <a th:href="@{/board_list}" class="btn btn-secondary">취소</a>
+                
+                <!-- Hidden 필드 - 실제로는 서버에서 설정되므로 필요없음 -->
+                <input type="hidden" id="count" name="count" value="0">
+                <input type="hidden" id="likec" name="likec" value="0">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
